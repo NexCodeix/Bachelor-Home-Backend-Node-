@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  MANAGER
+  MEMBER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum OtpPurpose {
+  REGISTER
+  FORGOT_PASSWORD
+}
+
+enum OtpChannel {
+  PHONE
+}
+
+enum MessMembershipRole {
+  OWNER
+  MEMBER
+}
+
+model User {
+  id               String       @id @default(uuid())
+  fullName         String
+  phoneNumber      String?      @unique
+  email            String?      @unique
+  gender           Gender
+  passwordHash     String?
+  referralCode     String?
+  role             Role
+  isSocial         Boolean      @default(false)
+  isPhoneVerified  Boolean      @default(false)
+  isActive         Boolean      @default(true)
+  googleId         String?      @unique
+  refreshTokenHash String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  otpCodes         OtpCode[]
+  ownedMess        Mess?
+  memberships      MessMember[]
+}
+
+model OtpCode {
+  id          String     @id @default(uuid())
+  userId      String?
+  phoneNumber String
+  purpose     OtpPurpose
+  channel     OtpChannel @default(PHONE)
+  codeHash    String
+  expiresAt   DateTime
+  attemptCount Int       @default(0)
+  maxAttempts Int
+  consumedAt  DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([phoneNumber, purpose])
+}
+
+model Mess {
+  id               String       @id @default(uuid())
+  name             String
+  ownerUserId      String       @unique
+  ownerPhoneNumber String
+  district         String
+  subDistrict      String
+  thana            String
+  fullAddress      String
+  capacity         Int
+  inviteCode       String       @unique
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  owner    User        @relation(fields: [ownerUserId], references: [id])
+  members  MessMember[]
+}
+
+model MessMember {
+  id        String             @id @default(uuid())
+  messId    String
+  userId    String
+  role      MessMembershipRole @default(MEMBER)
+  joinedAt  DateTime           @default(now())
+
+  mess Mess @relation(fields: [messId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([messId, userId])
+  @@index([userId])
+}
