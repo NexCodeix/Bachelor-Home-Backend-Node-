@@ -92,9 +92,8 @@ export class AuthService {
 
     if (dto.purpose === OtpPurpose.FORGOT_PASSWORD && !user) {
       return {
-        success: true,
-        message:
-          'If an account exists for this phone number, OTP has been sent.',
+        success: false,
+        message: 'No account found with this phone number',
       };
     }
 
