@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "f3dcf20a-4874-4bcc-9948-0e4f12b8396e",
-    "name": "Bachelor Home - Auth & Mess API",
+    "name": "Bachelor Home API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Auth + OTP + social login + mess onboarding collection for NestJS backend."
   },
