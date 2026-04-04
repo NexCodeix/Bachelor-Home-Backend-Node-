@@ -1,4 +1,4 @@
-import { Gender, Role } from '@prisma/client';
+import { Gender } from '@prisma/client';
 import {
   IsEmail,
   IsEnum,
@@ -33,10 +33,6 @@ export class GoogleLoginDto {
     message: 'phoneNumber must be a valid phone number',
   })
   phoneNumber?: string;
-
-  @IsOptional()
-  @IsEnum(Role)
-  role?: Role;
 
   @IsOptional()
   @IsEnum(Gender)

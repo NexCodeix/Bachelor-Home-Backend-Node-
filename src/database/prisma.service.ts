@@ -11,7 +11,9 @@ export class PrismaService
     const connectionString = process.env.DATABASE_URL;
 
     if (!connectionString) {
-      throw new Error('DATABASE_URL is required for Prisma adapter initialization');
+      throw new Error(
+        'DATABASE_URL is required for Prisma adapter initialization',
+      );
     }
 
     const adapter = new PrismaPg({ connectionString });

@@ -14,7 +14,9 @@ export class CreateMessDto {
   name: string;
 
   @IsString()
-  @Matches(/^\+?[0-9]{8,15}$/, { message: 'ownerPhoneNumber must be a valid phone number' })
+  @Matches(/^\+?[0-9]{8,15}$/, {
+    message: 'ownerPhoneNumber must be a valid phone number',
+  })
   ownerPhoneNumber: string;
 
   @IsString()

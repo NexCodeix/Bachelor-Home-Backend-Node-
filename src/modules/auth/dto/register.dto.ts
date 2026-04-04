@@ -1,4 +1,4 @@
-import { Gender, Role } from '@prisma/client';
+import { Gender } from '@prisma/client';
 import {
   IsEmail,
   IsEnum,
@@ -30,9 +30,6 @@ export class RegisterDto {
   @IsString()
   @MinLength(6)
   password: string;
-
-  @IsEnum(Role)
-  role: Role;
 
   @IsOptional()
   @IsString()

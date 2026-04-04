@@ -10,7 +10,7 @@
       "name": "Auth",
       "item": [
         {
-          "name": "Register Manager",
+          "name": "Register User For Create Flow",
           "request": {
             "method": "POST",
             "header": [
@@ -21,17 +21,12 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"fullName\": \"Manager One\",\n  \"phoneNumber\": \"{{managerPhone}}\",\n  \"email\": \"{{managerEmail}}\",\n  \"gender\": \"MALE\",\n  \"password\": \"{{password}}\",\n  \"role\": \"MANAGER\",\n  \"referralCode\": \"REF123\"\n}"
+              "raw": "{\n  \"fullName\": \"Create Flow User\",\n  \"phoneNumber\": \"{{managerPhone}}\",\n  \"email\": \"{{managerEmail}}\",\n  \"gender\": \"MALE\",\n  \"password\": \"{{password}}\",\n  \"referralCode\": \"REF123\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/auth/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "register"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
             }
           },
           "event": [
@@ -42,6 +37,10 @@
                 "exec": [
                   "pm.test('Status is 201 or 200', function () {",
                   "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('Store create-flow credentials for OTP and login', function () {",
+                  "  pm.collectionVariables.set('phoneNumber', pm.collectionVariables.get('managerPhone'));",
+                  "  pm.collectionVariables.set('identifier', pm.collectionVariables.get('managerEmail'));",
                   "});",
                   "pm.test('Capture dev OTP if present', function () {",
                   "  const json = pm.response.json();",
@@ -55,7 +54,7 @@
           ]
         },
         {
-          "name": "Register Member",
+          "name": "Register User For Join Flow",
           "request": {
             "method": "POST",
             "header": [
@@ -66,19 +65,37 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"fullName\": \"Member One\",\n  \"phoneNumber\": \"{{memberPhone}}\",\n  \"email\": \"{{memberEmail}}\",\n  \"gender\": \"FEMALE\",\n  \"password\": \"{{password}}\",\n  \"role\": \"MEMBER\",\n  \"referelCode\": \"REF999\"\n}"
+              "raw": "{\n  \"fullName\": \"Join Flow User\",\n  \"phoneNumber\": \"{{memberPhone}}\",\n  \"email\": \"{{memberEmail}}\",\n  \"gender\": \"FEMALE\",\n  \"password\": \"{{password}}\",\n  \"referelCode\": \"REF999\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/auth/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "register"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201 or 200', function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "pm.test('Store join-flow credentials for OTP and login', function () {",
+                  "  pm.collectionVariables.set('phoneNumber', pm.collectionVariables.get('memberPhone'));",
+                  "  pm.collectionVariables.set('identifier', pm.collectionVariables.get('memberEmail'));",
+                  "});",
+                  "pm.test('Capture dev OTP if present', function () {",
+                  "  const json = pm.response.json();",
+                  "  if (json?.data?.otp) {",
+                  "    pm.collectionVariables.set('otp', json.data.otp);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
         },
         {
           "name": "Send OTP",
@@ -96,14 +113,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/otp/send",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "otp",
-                "send"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "otp", "send"]
             }
           },
           "event": [
@@ -139,14 +150,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/otp/verify",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "otp",
-                "verify"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "otp", "verify"]
             }
           }
         },
@@ -166,13 +171,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "login"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
             }
           },
           "event": [
@@ -185,8 +185,10 @@
                   "  const json = pm.response.json();",
                   "  const access = json?.data?.tokens?.accessToken;",
                   "  const refresh = json?.data?.tokens?.refreshToken;",
+                  "  const userId = json?.data?.user?.id;",
                   "  if (access) pm.collectionVariables.set('accessToken', access);",
                   "  if (refresh) pm.collectionVariables.set('refreshToken', refresh);",
+                  "  if (userId) pm.collectionVariables.set('userId', userId);",
                   "});"
                 ]
               }
@@ -209,14 +211,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/forgot-password/request",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "forgot-password",
-                "request"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "forgot-password", "request"]
             }
           },
           "event": [
@@ -250,14 +246,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/otp/verify",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "otp",
-                "verify"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "otp", "verify"]
             }
           },
           "event": [
@@ -291,14 +281,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/forgot-password/reset",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "forgot-password",
-                "reset"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "forgot-password", "reset"]
             }
           }
         },
@@ -314,18 +298,12 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"idToken\": \"{{googleIdToken}}\",\n  \"googleId\": \"{{googleUserId}}\",\n  \"email\": \"{{googleEmail}}\",\n  \"fullName\": \"Google User\",\n  \"phoneNumber\": \"{{phoneNumber}}\",\n  \"role\": \"MEMBER\",\n  \"gender\": \"OTHER\"\n}"
+              "raw": "{\n  \"idToken\": \"{{googleIdToken}}\",\n  \"googleId\": \"{{googleUserId}}\",\n  \"email\": \"{{googleEmail}}\",\n  \"fullName\": \"Google User\",\n  \"phoneNumber\": \"{{phoneNumber}}\",\n  \"gender\": \"OTHER\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/auth/social/google",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "social",
-                "google"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "social", "google"]
             }
           },
           "event": [
@@ -334,13 +312,18 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "const json = pm.response.json();",
-                  "if (json?.data?.tokens?.accessToken) {",
-                  "  pm.collectionVariables.set('accessToken', json.data.tokens.accessToken);",
-                  "}",
-                  "if (json?.data?.tokens?.refreshToken) {",
-                  "  pm.collectionVariables.set('refreshToken', json.data.tokens.refreshToken);",
-                  "}"
+                  "pm.test('Capture Google login tokens and user id', function () {",
+                  "  const json = pm.response.json();",
+                  "  if (json?.data?.tokens?.accessToken) {",
+                  "    pm.collectionVariables.set('accessToken', json.data.tokens.accessToken);",
+                  "  }",
+                  "  if (json?.data?.tokens?.refreshToken) {",
+                  "    pm.collectionVariables.set('refreshToken', json.data.tokens.refreshToken);",
+                  "  }",
+                  "  if (json?.data?.user?.id) {",
+                  "    pm.collectionVariables.set('userId', json.data.user.id);",
+                  "  }",
+                  "});"
                 ]
               }
             }
@@ -358,13 +341,228 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/auth/onboarding-status",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "onboarding-status"
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "onboarding-status"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Onboarding status is fetched successfully', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  if (json?.data?.status) {",
+                  "    pm.collectionVariables.set('onboardingStatus', json.data.status);",
+                  "  }",
+                  "  if (json?.data?.role) {",
+                  "    pm.collectionVariables.set('userRole', json.data.role);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "me"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('My profile is fetched successfully', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  if (json?.data?.id) {",
+                  "    pm.collectionVariables.set('userId', json.data.id);",
+                  "  }",
+                  "  if (json?.data?.role) {",
+                  "    pm.collectionVariables.set('userRole', json.data.role);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "fullName",
+                  "value": "{{updateFullName}}",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "{{updateEmail}}",
+                  "type": "text"
+                },
+                {
+                  "key": "phoneNumber",
+                  "value": "{{updatePhoneNumber}}",
+                  "type": "text"
+                },
+                {
+                  "key": "gender",
+                  "value": "OTHER",
+                  "type": "text"
+                },
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": "{{profileImagePath}}"
+                }
               ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "me"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('My profile is updated successfully', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  if (json?.data?.profileImageUrl) {",
+                  "    pm.collectionVariables.set('profileImageUrl', json.data.profileImageUrl);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin List Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Admin list users succeeds', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  const firstUserId = json?.data?.[0]?.id;",
+                  "  if (firstUserId) {",
+                  "    pm.collectionVariables.set('targetUserId', firstUserId);",
+                  "  }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin Get User By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{targetUserId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{targetUserId}}"]
+            }
+          }
+        },
+        {
+          "name": "Admin Update User",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"{{adminUpdatedFullName}}\",\n  \"email\": \"{{adminUpdatedEmail}}\",\n  \"phoneNumber\": \"{{adminUpdatedPhoneNumber}}\",\n  \"gender\": \"MALE\",\n  \"role\": \"MEMBER\",\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/{{targetUserId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{targetUserId}}"]
+            }
+          }
+        },
+        {
+          "name": "Admin Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{targetUserId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{targetUserId}}"]
             }
           }
         }
@@ -374,7 +572,7 @@
       "name": "Mess",
       "item": [
         {
-          "name": "Create Mess (Manager)",
+          "name": "Create Mess (Assign Manager Role)",
           "request": {
             "method": "POST",
             "header": [
@@ -393,12 +591,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/messes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["messes"]
             }
           },
           "event": [
@@ -407,17 +601,20 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "const json = pm.response.json();",
-                  "if (json?.data?.inviteCode) {",
-                  "  pm.collectionVariables.set('inviteCode', json.data.inviteCode);",
-                  "}"
+                  "pm.test('Mess is created successfully', function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "  const json = pm.response.json();",
+                  "  if (json?.data?.inviteCode) {",
+                  "    pm.collectionVariables.set('inviteCode', json.data.inviteCode);",
+                  "  }",
+                  "});"
                 ]
               }
             }
           ]
         },
         {
-          "name": "Join Mess (Member)",
+          "name": "Join Mess (Assign Member Role)",
           "request": {
             "method": "POST",
             "header": [
@@ -436,15 +633,23 @@
             },
             "url": {
               "raw": "{{baseUrl}}/messes/join",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes",
-                "join"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join"]
             }
-          }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Mess is joined successfully', function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});"
+                ]
+              }
+            }
+          ]
         }
       ]
     }
@@ -503,7 +708,55 @@
       "value": ""
     },
     {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "targetUserId",
+      "value": ""
+    },
+    {
+      "key": "updateFullName",
+      "value": "Updated Profile Name"
+    },
+    {
+      "key": "updateEmail",
+      "value": "updated-profile@example.com"
+    },
+    {
+      "key": "updatePhoneNumber",
+      "value": "+8801700000100"
+    },
+    {
+      "key": "adminUpdatedFullName",
+      "value": "Admin Updated User"
+    },
+    {
+      "key": "adminUpdatedEmail",
+      "value": "admin-updated@example.com"
+    },
+    {
+      "key": "adminUpdatedPhoneNumber",
+      "value": "+8801700000101"
+    },
+    {
+      "key": "profileImagePath",
+      "value": ""
+    },
+    {
+      "key": "profileImageUrl",
+      "value": ""
+    },
+    {
       "key": "inviteCode",
+      "value": ""
+    },
+    {
+      "key": "userRole",
+      "value": ""
+    },
+    {
+      "key": "onboardingStatus",
       "value": ""
     },
     {

@@ -54,7 +54,7 @@ export class AuthService {
         gender: dto.gender,
         passwordHash,
         referralCode: dto.referralCode ?? dto.referelCode,
-        role: dto.role,
+        role: Role.UNASSIGNED,
         isSocial: false,
         isPhoneVerified: false,
       },
@@ -387,7 +387,7 @@ export class AuthService {
             phoneNumber: dto.phoneNumber,
             email,
             gender: dto.gender ?? Gender.OTHER,
-            role: dto.role ?? Role.MEMBER,
+            role: Role.UNASSIGNED,
             isSocial: true,
             isPhoneVerified: false,
             googleId,
@@ -427,6 +427,17 @@ export class AuthService {
         code: ERROR_CODES.NOT_FOUND,
         message: 'User not found',
       });
+    }
+
+    if (user.role === Role.UNASSIGNED) {
+      return {
+        success: true,
+        message: 'Onboarding status fetched',
+        data: {
+          role: user.role,
+          status: 'needsMessChoice',
+        },
+      };
     }
 
     if (user.role === Role.MANAGER) {

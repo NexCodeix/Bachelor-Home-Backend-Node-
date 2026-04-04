@@ -31,8 +31,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         ? exceptionResponse
         : Array.isArray(exceptionResponse?.message)
           ? exceptionResponse.message.join(', ')
-          : exceptionResponse?.message ??
-            (isHttpException ? 'Request failed' : 'Internal server error');
+          : (exceptionResponse?.message ??
+            (isHttpException ? 'Request failed' : 'Internal server error'));
 
     const code =
       typeof exceptionResponse === 'object' && exceptionResponse?.code
@@ -40,7 +40,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         : this.mapDefaultCode(status);
 
     const details =
-      typeof exceptionResponse === 'object' ? exceptionResponse?.details : undefined;
+      typeof exceptionResponse === 'object'
+        ? exceptionResponse?.details
+        : undefined;
 
     response.status(status).json({
       success: false,

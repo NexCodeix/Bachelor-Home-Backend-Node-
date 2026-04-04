@@ -17,60 +17,91 @@ import { JoinMessDto } from './dto/join-mess.dto';
 export class MessService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createMess(user: AuthenticatedUser, dto: CreateMessDto): Promise<ApiResponse> {
-    if (user.role !== Role.MANAGER) {
+  async createMess(
+    user: AuthenticatedUser,
+    dto: CreateMessDto,
+  ): Promise<ApiResponse> {
+    if (user.role === Role.MEMBER) {
       throw new BadRequestException({
         code: ERROR_CODES.FORBIDDEN,
-        message: 'Only manager can create a mess',
+        message: 'Members cannot create a mess',
       });
     }
 
-    const manager = await this.prisma.user.findUnique({
-      where: { id: user.id },
-      select: { isPhoneVerified: true },
-    });
-
-    if (!manager?.isPhoneVerified) {
-      throw new BadRequestException({
-        code: ERROR_CODES.PHONE_NOT_VERIFIED,
-        message: 'Phone number must be verified before creating a mess',
+    const mess = await this.prisma.$transaction(async (tx) => {
+      const currentUser = await tx.user.findUnique({
+        where: { id: user.id },
+        select: {
+          role: true,
+          isPhoneVerified: true,
+        },
       });
-    }
 
-    const alreadyOwnsMess = await this.prisma.mess.findUnique({
-      where: { ownerUserId: user.id },
-      select: { id: true },
-    });
+      if (!currentUser) {
+        throw new NotFoundException({
+          code: ERROR_CODES.NOT_FOUND,
+          message: 'User not found',
+        });
+      }
 
-    if (alreadyOwnsMess) {
-      throw new ConflictException({
-        code: ERROR_CODES.CONFLICT,
-        message: 'Manager already owns a mess',
+      if (currentUser.role === Role.MEMBER) {
+        throw new BadRequestException({
+          code: ERROR_CODES.FORBIDDEN,
+          message: 'Members cannot create a mess',
+        });
+      }
+
+      if (!currentUser.isPhoneVerified) {
+        throw new BadRequestException({
+          code: ERROR_CODES.PHONE_NOT_VERIFIED,
+          message: 'Phone number must be verified before creating a mess',
+        });
+      }
+
+      const alreadyOwnsMess = await tx.mess.findUnique({
+        where: { ownerUserId: user.id },
+        select: { id: true },
       });
-    }
 
-    const inviteCode = await this.generateUniqueInviteCode();
+      if (alreadyOwnsMess) {
+        throw new ConflictException({
+          code: ERROR_CODES.CONFLICT,
+          message: 'Manager already owns a mess',
+        });
+      }
 
-    const mess = await this.prisma.mess.create({
-      data: {
-        name: dto.name,
-        ownerUserId: user.id,
-        ownerPhoneNumber: dto.ownerPhoneNumber,
-        district: dto.district,
-        subDistrict: dto.subDistrict,
-        thana: dto.thana,
-        fullAddress: dto.fullAddress,
-        capacity: dto.capacity,
-        inviteCode,
-      },
-    });
+      if (currentUser.role === Role.UNASSIGNED) {
+        await tx.user.update({
+          where: { id: user.id },
+          data: { role: Role.MANAGER },
+        });
+      }
 
-    await this.prisma.messMember.create({
-      data: {
-        messId: mess.id,
-        userId: user.id,
-        role: MessMembershipRole.OWNER,
-      },
+      const inviteCode = await this.generateUniqueInviteCode(tx);
+
+      const createdMess = await tx.mess.create({
+        data: {
+          name: dto.name,
+          ownerUserId: user.id,
+          ownerPhoneNumber: dto.ownerPhoneNumber,
+          district: dto.district,
+          subDistrict: dto.subDistrict,
+          thana: dto.thana,
+          fullAddress: dto.fullAddress,
+          capacity: dto.capacity,
+          inviteCode,
+        },
+      });
+
+      await tx.messMember.create({
+        data: {
+          messId: createdMess.id,
+          userId: user.id,
+          role: MessMembershipRole.OWNER,
+        },
+      });
+
+      return createdMess;
     });
 
     return {
@@ -83,64 +114,107 @@ export class MessService {
     };
   }
 
-  async joinMess(user: AuthenticatedUser, dto: JoinMessDto): Promise<ApiResponse> {
-    if (user.role !== Role.MEMBER) {
+  async joinMess(
+    user: AuthenticatedUser,
+    dto: JoinMessDto,
+  ): Promise<ApiResponse> {
+    if (user.role === Role.MANAGER) {
       throw new BadRequestException({
         code: ERROR_CODES.FORBIDDEN,
-        message: 'Only members can join a mess',
+        message: 'Managers cannot join a mess',
       });
     }
 
-    const mess = await this.prisma.mess.findUnique({
-      where: { inviteCode: dto.inviteCode },
-      select: {
-        id: true,
-        name: true,
-        capacity: true,
-      },
-    });
-
-    if (!mess) {
-      throw new NotFoundException({
-        code: ERROR_CODES.NOT_FOUND,
-        message: 'Invalid invite code',
-      });
-    }
-
-    const existingMembership = await this.prisma.messMember.findUnique({
-      where: {
-        messId_userId: {
-          messId: mess.id,
-          userId: user.id,
+    const mess = await this.prisma.$transaction(async (tx) => {
+      const currentUser = await tx.user.findUnique({
+        where: { id: user.id },
+        select: {
+          role: true,
+          isPhoneVerified: true,
         },
-      },
-      select: { id: true },
-    });
-
-    if (existingMembership) {
-      throw new ConflictException({
-        code: ERROR_CODES.CONFLICT,
-        message: 'You already joined this mess',
       });
-    }
 
-    const totalMembers = await this.prisma.messMember.count({
-      where: { messId: mess.id },
-    });
+      if (!currentUser) {
+        throw new NotFoundException({
+          code: ERROR_CODES.NOT_FOUND,
+          message: 'User not found',
+        });
+      }
 
-    if (totalMembers >= mess.capacity) {
-      throw new ConflictException({
-        code: ERROR_CODES.MESS_CAPACITY_FULL,
-        message: 'Mess capacity is full',
+      if (currentUser.role === Role.MANAGER) {
+        throw new BadRequestException({
+          code: ERROR_CODES.FORBIDDEN,
+          message: 'Managers cannot join a mess',
+        });
+      }
+
+      if (!currentUser.isPhoneVerified) {
+        throw new BadRequestException({
+          code: ERROR_CODES.PHONE_NOT_VERIFIED,
+          message: 'Phone number must be verified before joining a mess',
+        });
+      }
+
+      const targetMess = await tx.mess.findUnique({
+        where: { inviteCode: dto.inviteCode },
+        select: {
+          id: true,
+          name: true,
+          capacity: true,
+        },
       });
-    }
 
-    await this.prisma.messMember.create({
-      data: {
-        messId: mess.id,
-        userId: user.id,
-        role: MessMembershipRole.MEMBER,
-      },
+      if (!targetMess) {
+        throw new NotFoundException({
+          code: ERROR_CODES.NOT_FOUND,
+          message: 'Invalid invite code',
+        });
+      }
+
+      const existingMembership = await tx.messMember.findUnique({
+        where: {
+          messId_userId: {
+            messId: targetMess.id,
+            userId: user.id,
+          },
+        },
+        select: { id: true },
+      });
+
+      if (existingMembership) {
+        throw new ConflictException({
+          code: ERROR_CODES.CONFLICT,
+          message: 'You already joined this mess',
+        });
+      }
+
+      const totalMembers = await tx.messMember.count({
+        where: { messId: targetMess.id },
+      });
+
+      if (totalMembers >= targetMess.capacity) {
+        throw new ConflictException({
+          code: ERROR_CODES.MESS_CAPACITY_FULL,
+          message: 'Mess capacity is full',
+        });
+      }
+
+      if (currentUser.role === Role.UNASSIGNED) {
+        await tx.user.update({
+          where: { id: user.id },
+          data: { role: Role.MEMBER },
+        });
+      }
+
+      await tx.messMember.create({
+        data: {
+          messId: targetMess.id,
+          userId: user.id,
+          role: MessMembershipRole.MEMBER,
+        },
+      });
+
+      return targetMess;
     });
 
     return {
@@ -153,10 +227,12 @@ export class MessService {
     };
   }
 
-  private async generateUniqueInviteCode(): Promise<string> {
+  private async generateUniqueInviteCode(
+    tx: Pick<PrismaService, 'mess'>,
+  ): Promise<string> {
     for (let i = 0; i < 10; i += 1) {
       const inviteCode = generateInviteCode(8);
-      const existing = await this.prisma.mess.findUnique({
+      const existing = await tx.mess.findUnique({
         where: { inviteCode },
         select: { id: true },
       });

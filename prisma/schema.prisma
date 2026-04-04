@@ -7,6 +7,8 @@ datasource db {
 }
 
 enum Role {
+  ADMIN
+  UNASSIGNED
   MANAGER
   MEMBER
 }
@@ -36,6 +38,7 @@ model User {
   fullName         String
   phoneNumber      String?      @unique
   email            String?      @unique
+  profileImageUrl  String?
   gender           Gender
   passwordHash     String?
   referralCode     String?
