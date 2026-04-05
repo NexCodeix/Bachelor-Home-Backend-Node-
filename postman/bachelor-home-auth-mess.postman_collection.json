@@ -186,9 +186,14 @@
                   "  const access = json?.data?.tokens?.accessToken;",
                   "  const refresh = json?.data?.tokens?.refreshToken;",
                   "  const userId = json?.data?.user?.id;",
+                  "  const identifier = pm.collectionVariables.get('identifier');",
+                  "  const managerEmail = pm.collectionVariables.get('managerEmail');",
+                  "  const memberEmail = pm.collectionVariables.get('memberEmail');",
                   "  if (access) pm.collectionVariables.set('accessToken', access);",
                   "  if (refresh) pm.collectionVariables.set('refreshToken', refresh);",
                   "  if (userId) pm.collectionVariables.set('userId', userId);",
+                  "  if (access && identifier === managerEmail) pm.collectionVariables.set('managerAccessToken', access);",
+                  "  if (access && identifier === memberEmail) pm.collectionVariables.set('memberAccessToken', access);",
                   "});"
                 ]
               }
@@ -582,7 +587,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
+                "value": "Bearer {{managerAccessToken}}"
               }
             ],
             "body": {
@@ -604,6 +609,9 @@
                   "pm.test('Mess is created successfully', function () {",
                   "  pm.expect([200, 201]).to.include(pm.response.code);",
                   "  const json = pm.response.json();",
+                  "  if (json?.data?.messId) {",
+                  "    pm.collectionVariables.set('messId', json.data.messId);",
+                  "  }",
                   "  if (json?.data?.inviteCode) {",
                   "    pm.collectionVariables.set('inviteCode', json.data.inviteCode);",
                   "  }",
@@ -614,7 +622,47 @@
           ]
         },
         {
-          "name": "Join Mess (Assign Member Role)",
+          "name": "Manager Turn Off Mess Join",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{managerAccessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isJoinEnabled\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messes/join-settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join-settings"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Manager can turn off mess join', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json?.data?.isJoinEnabled).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Member Join Request While Join Off",
           "request": {
             "method": "POST",
             "header": [
@@ -624,7 +672,7 @@
               },
               {
                 "key": "Authorization",
-                "value": "Bearer {{accessToken}}"
+                "value": "Bearer {{memberAccessToken}}"
               }
             ],
             "body": {
@@ -643,8 +691,214 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Mess is joined successfully', function () {",
-                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "pm.test('Join fails with meaningful message when manager turned it off', function () {",
+                  "  pm.expect(pm.response.code).to.eql(409);",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json?.error?.code).to.eql('MESS_JOIN_DISABLED');",
+                  "  pm.expect(json?.message).to.be.a('string').and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Manager Turn On Mess Join",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{managerAccessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isJoinEnabled\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messes/join-settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join-settings"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Manager can turn on mess join', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json?.data?.isJoinEnabled).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Member Request Join Mess (Pending Approval)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{memberAccessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"inviteCode\": \"{{inviteCode}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messes/join",
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Member join request is submitted as pending', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json?.data?.requestStatus).to.eql('PENDING');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Member Get My Join Request Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{memberAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messes/join-requests/my-status?messId={{messId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join-requests", "my-status"],
+              "query": [
+                {
+                  "key": "messId",
+                  "value": "{{messId}}"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Member can fetch own join request status', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(['NONE', 'PENDING', 'APPROVED', 'REJECTED']).to.include(json?.data?.requestStatus);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Manager List Pending Join Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{managerAccessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/messes/join-requests/pending?messId={{messId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join-requests", "pending"],
+              "query": [
+                {
+                  "key": "messId",
+                  "value": "{{messId}}"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Manager can list pending join requests', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  const firstRequestId = json?.data?.requests?.[0]?.id;",
+                  "  pm.expect(firstRequestId).to.be.a('string').and.not.empty;",
+                  "  pm.collectionVariables.set('joinRequestId', firstRequestId);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Manager Approve Join Request",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{managerAccessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"APPROVED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/messes/join-requests/{{joinRequestId}}/decision",
+              "host": ["{{baseUrl}}"],
+              "path": [
+                "messes",
+                "join-requests",
+                "{{joinRequestId}}",
+                "decision"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Manager can approve pending join request', function () {",
+                  "  pm.expect(pm.response.code).to.eql(200);",
+                  "  const json = pm.response.json();",
+                  "  pm.expect(json?.data?.requestStatus).to.eql('APPROVED');",
                   "});"
                 ]
               }
@@ -704,6 +958,14 @@
       "value": ""
     },
     {
+      "key": "managerAccessToken",
+      "value": ""
+    },
+    {
+      "key": "memberAccessToken",
+      "value": ""
+    },
+    {
       "key": "refreshToken",
       "value": ""
     },
@@ -749,6 +1011,14 @@
     },
     {
       "key": "inviteCode",
+      "value": ""
+    },
+    {
+      "key": "messId",
+      "value": ""
+    },
+    {
+      "key": "joinRequestId",
       "value": ""
     },
     {

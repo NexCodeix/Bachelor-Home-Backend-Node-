@@ -33,6 +33,12 @@ enum MessMembershipRole {
   MEMBER
 }
 
+enum MessJoinRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id               String       @id @default(uuid())
   fullName         String
@@ -86,6 +92,7 @@ model Mess {
   fullAddress      String
   capacity         Int
   inviteCode       String       @unique
+  isJoinEnabled    Boolean      @default(true)
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
 
@@ -98,6 +105,8 @@ model MessMember {
   messId    String
   userId    String
   role      MessMembershipRole @default(MEMBER)
+  requestStatus MessJoinRequestStatus @default(APPROVED)
+  respondedAt DateTime?
   joinedAt  DateTime           @default(now())
 
   mess Mess @relation(fields: [messId], references: [id])
@@ -105,4 +114,5 @@ model MessMember {
 
   @@unique([messId, userId])
   @@index([userId])
+  @@index([messId, requestStatus])
 }
