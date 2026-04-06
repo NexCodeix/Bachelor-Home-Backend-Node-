@@ -25,13 +25,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "register"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
             }
           },
           "event": [
@@ -74,13 +69,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "register"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
             }
           },
           "event": [
@@ -123,14 +113,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/otp/send",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "otp",
-                "send"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "otp", "send"]
             }
           },
           "event": [
@@ -166,14 +150,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/otp/verify",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "otp",
-                "verify"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "otp", "verify"]
             }
           }
         },
@@ -193,13 +171,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "login"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
             }
           },
           "event": [
@@ -243,14 +216,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/forgot-password/request",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "forgot-password",
-                "request"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "forgot-password", "request"]
             }
           },
           "event": [
@@ -284,14 +251,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/otp/verify",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "otp",
-                "verify"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "otp", "verify"]
             }
           },
           "event": [
@@ -325,14 +286,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/forgot-password/reset",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "forgot-password",
-                "reset"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "forgot-password", "reset"]
             }
           }
         },
@@ -352,14 +307,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/social/google",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "social",
-                "google"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "social", "google"]
             }
           },
           "event": [
@@ -397,13 +346,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/auth/onboarding-status",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "onboarding-status"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "onboarding-status"]
             }
           },
           "event": [
@@ -444,13 +388,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/users/me",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "me"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "me"]
             }
           },
           "event": [
@@ -516,13 +455,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/users/me",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "me"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "me"]
             }
           },
           "event": [
@@ -555,12 +489,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/users",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
             }
           },
           "event": [
@@ -594,13 +524,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/users/{{targetUserId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "{{targetUserId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{targetUserId}}"]
             }
           }
         },
@@ -624,13 +549,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/users/{{targetUserId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "{{targetUserId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{targetUserId}}"]
             }
           }
         },
@@ -646,13 +566,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/users/{{targetUserId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "users",
-                "{{targetUserId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{targetUserId}}"]
             }
           }
         }
@@ -681,12 +596,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/messes",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["messes"]
             }
           },
           "event": [
@@ -730,13 +641,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/messes/join-settings",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes",
-                "join-settings"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join-settings"]
             }
           },
           "event": [
@@ -775,13 +681,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/messes/join",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes",
-                "join"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join"]
             }
           },
           "event": [
@@ -821,13 +722,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/messes/join-settings",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes",
-                "join-settings"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join-settings"]
             }
           },
           "event": [
@@ -866,13 +762,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/messes/join",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes",
-                "join"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join"]
             }
           },
           "event": [
@@ -903,14 +794,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/messes/join-requests/my-status?messId={{messId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes",
-                "join-requests",
-                "my-status"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join-requests", "my-status"],
               "query": [
                 {
                   "key": "messId",
@@ -947,14 +832,8 @@
             ],
             "url": {
               "raw": "{{baseUrl}}/messes/join-requests/pending?messId={{messId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "messes",
-                "join-requests",
-                "pending"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["messes", "join-requests", "pending"],
               "query": [
                 {
                   "key": "messId",
@@ -1001,9 +880,7 @@
             },
             "url": {
               "raw": "{{baseUrl}}/messes/join-requests/{{joinRequestId}}/decision",
-              "host": [
-                "{{baseUrl}}"
-              ],
+              "host": ["{{baseUrl}}"],
               "path": [
                 "messes",
                 "join-requests",
@@ -1048,14 +925,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/dashboard?year={{mealYear}}&month={{mealMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "manager",
-                    "dashboard"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "dashboard"],
                   "query": [
                     {
                       "key": "year",
@@ -1081,14 +952,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/menu?year={{mealYear}}&month={{mealMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "manager",
-                    "menu"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "menu"],
                   "query": [
                     {
                       "key": "year",
@@ -1122,14 +987,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/menu",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "manager",
-                    "menu"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "menu"]
                 }
               }
             },
@@ -1145,14 +1004,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/routine",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "manager",
-                    "routine"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "routine"]
                 }
               }
             },
@@ -1176,14 +1029,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/routine",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "manager",
-                    "routine"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "routine"]
                 }
               }
             },
@@ -1199,15 +1046,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/requests/pending?year={{mealYear}}&month={{mealMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "manager",
-                    "requests",
-                    "pending"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "requests", "pending"],
                   "query": [
                     {
                       "key": "year",
@@ -1257,9 +1097,7 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/requests/{{mealRequestId}}/decision",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
+                  "host": ["{{baseUrl}}"],
                   "path": [
                     "meals",
                     "manager",
@@ -1282,14 +1120,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/history?year={{mealYear}}&month={{mealMonth}}&scope={{mealHistoryScope}}&memberId={{mealMemberId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "manager",
-                    "history"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "history"],
                   "query": [
                     {
                       "key": "year",
@@ -1324,9 +1156,7 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/manager/members/{{mealMemberId}}/activity?year={{mealYear}}&month={{mealMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
+                  "host": ["{{baseUrl}}"],
                   "path": [
                     "meals",
                     "manager",
@@ -1364,14 +1194,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/summary?year={{mealYear}}&month={{mealMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "summary"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "summary"],
                   "query": [
                     {
                       "key": "year",
@@ -1397,14 +1221,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/calendar?year={{mealYear}}&month={{mealMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "calendar"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "calendar"],
                   "query": [
                     {
                       "key": "year",
@@ -1446,14 +1264,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/routine",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "routine"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "routine"]
                 }
               }
             },
@@ -1477,14 +1289,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/routine",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "routine"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "routine"]
                 }
               }
             },
@@ -1508,14 +1314,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/requests",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "requests"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "requests"]
                 }
               },
               "event": [
@@ -1553,15 +1353,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/requests/{{mealRequestId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "requests",
-                    "{{mealRequestId}}"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "requests", "{{mealRequestId}}"]
                 }
               }
             },
@@ -1577,9 +1370,7 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/requests/{{mealRequestId}}/cancel",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
+                  "host": ["{{baseUrl}}"],
                   "path": [
                     "meals",
                     "member",
@@ -1610,15 +1401,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/attendance/{{mealDayId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "attendance",
-                    "{{mealDayId}}"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "attendance", "{{mealDayId}}"]
                 }
               }
             },
@@ -1634,14 +1418,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/history?year={{mealYear}}&month={{mealMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "history"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "history"],
                   "query": [
                     {
                       "key": "year",
@@ -1667,14 +1445,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/activity?year={{mealYear}}&month={{mealMonth}}&filter={{mealActivityFilter}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "activity"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "activity"],
                   "query": [
                     {
                       "key": "year",
@@ -1704,14 +1476,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/meals/member/report?year={{mealYear}}&month={{mealMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "meals",
-                    "member",
-                    "report"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "report"],
                   "query": [
                     {
                       "key": "year",
@@ -1747,14 +1513,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/expenses/manager/summary?year={{expenseYear}}&month={{expenseMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "manager",
-                    "summary"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "manager", "summary"],
                   "query": [
                     {
                       "key": "year",
@@ -1780,14 +1540,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/expenses/manager/list?year={{expenseYear}}&month={{expenseMonth}}&status={{expenseStatusFilter}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "manager",
-                    "list"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "manager", "list"],
                   "query": [
                     {
                       "key": "year",
@@ -1825,13 +1579,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/expenses/manager",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "manager"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "manager"]
                 }
               },
               "event": [
@@ -1869,14 +1618,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/expenses/manager/{{expenseId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "manager",
-                    "{{expenseId}}"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "manager", "{{expenseId}}"]
                 }
               }
             },
@@ -1892,14 +1635,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/expenses/manager/{{expenseId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "manager",
-                    "{{expenseId}}"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "manager", "{{expenseId}}"]
                 }
               }
             },
@@ -1915,9 +1652,7 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/expenses/manager/members/{{expenseMemberId}}?year={{expenseYear}}&month={{expenseMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
+                  "host": ["{{baseUrl}}"],
                   "path": [
                     "expenses",
                     "manager",
@@ -1957,15 +1692,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/expenses/manager/{{expenseId}}/decision",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "manager",
-                    "{{expenseId}}",
-                    "decision"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "manager", "{{expenseId}}", "decision"]
                 }
               }
             }
@@ -2041,13 +1769,8 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/expenses/member",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "member"
-                  ]
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "member"]
                 }
               },
               "event": [
@@ -2078,14 +1801,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/expenses/member/my?year={{expenseYear}}&month={{expenseMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "member",
-                    "my"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "member", "my"],
                   "query": [
                     {
                       "key": "year",
@@ -2127,14 +1844,8 @@
                 ],
                 "url": {
                   "raw": "{{baseUrl}}/expenses/member/meal-rate?year={{expenseYear}}&month={{expenseMonth}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "expenses",
-                    "member",
-                    "meal-rate"
-                  ],
+                  "host": ["{{baseUrl}}"],
+                  "path": ["expenses", "member", "meal-rate"],
                   "query": [
                     {
                       "key": "year",
@@ -2144,6 +1855,466 @@
                       "key": "month",
                       "value": "{{expenseMonth}}"
                     }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Manager",
+          "item": [
+            {
+              "name": "Manager Overview",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/manager/overview?year={{paymentYear}}&month={{paymentMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "manager", "overview"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{paymentYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{paymentMonth}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Manager List Payments",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/manager/list?year={{paymentYear}}&month={{paymentMonth}}&status={{paymentStatusFilter}}&memberId={{paymentMemberId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "manager", "list"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{paymentYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{paymentMonth}}"
+                    },
+                    {
+                      "key": "status",
+                      "value": "{{paymentStatusFilter}}"
+                    },
+                    {
+                      "key": "memberId",
+                      "value": "{{paymentMemberId}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Manager Decide Payment",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVED\",\n  \"managerNote\": \"Verified\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payments/manager/{{paymentId}}/decision",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "manager", "{{paymentId}}", "decision"]
+                }
+              }
+            },
+            {
+              "name": "Manager Create Return Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 50,\n  \"method\": \"OTHER_FUND_TRANSFER\",\n  \"transferTarget\": \"UTILITY_BILL\",\n  \"managerNote\": \"Return the extra amount\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payments/manager/{{paymentId}}/return-requests",
+                  "host": ["{{baseUrl}}"],
+                  "path": [
+                    "payments",
+                    "manager",
+                    "{{paymentId}}",
+                    "return-requests"
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Capture return request id if present', function () {",
+                      "  const json = pm.response.json();",
+                      "  if (json?.data?.id) pm.collectionVariables.set('paymentReturnRequestId', json.data.id);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Manager Return Requests",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/manager/return-requests?year={{paymentYear}}&month={{paymentMonth}}&returnStatus={{returnStatusFilter}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "manager", "return-requests"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{paymentYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{paymentMonth}}"
+                    },
+                    {
+                      "key": "returnStatus",
+                      "value": "{{returnStatusFilter}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Manager Unpaid Members",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/manager/unpaid-members?year={{paymentYear}}&month={{paymentMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "manager", "unpaid-members"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{paymentYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{paymentMonth}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Manager Monthly Report",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/manager/report?year={{paymentYear}}&month={{paymentMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "manager", "report"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{paymentYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{paymentMonth}}"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Member",
+          "item": [
+            {
+              "name": "Member Submit Payment",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paymentDate\": \"2026-04-06T12:00:00.000Z\",\n  \"category\": \"MEAL_CHARGE\",\n  \"amount\": 3000,\n  \"returnAmountRequested\": 100\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payments/member",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "member"]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Capture payment id if present', function () {",
+                      "  const json = pm.response.json();",
+                      "  if (json?.data?.id) pm.collectionVariables.set('paymentId', json.data.id);",
+                      "  if (json?.data?.member?.userId) pm.collectionVariables.set('paymentMemberId', json.data.member.userId);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Member Update Pending Payment",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"amount\": 3200,\n  \"returnAmountRequested\": 50\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payments/member/{{paymentId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "member", "{{paymentId}}"]
+                }
+              }
+            },
+            {
+              "name": "Member Remove Pending Payment",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/member/{{paymentId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "member", "{{paymentId}}"]
+                }
+              }
+            },
+            {
+              "name": "Member My Payments",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/member/my?year={{paymentYear}}&month={{paymentMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "member", "my"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{paymentYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{paymentMonth}}"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Capture latest payment id if present', function () {",
+                      "  const json = pm.response.json();",
+                      "  const first = json?.data?.payments?.[0];",
+                      "  if (first?.id) pm.collectionVariables.set('paymentId', first.id);",
+                      "  if (first?.member?.userId) pm.collectionVariables.set('paymentMemberId', first.member.userId);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Member Summary",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/member/summary?year={{paymentYear}}&month={{paymentMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "member", "summary"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{paymentYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{paymentMonth}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Member Return Requests",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/payments/member/return-requests?year={{paymentYear}}&month={{paymentMonth}}&returnStatus={{returnStatusFilter}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["payments", "member", "return-requests"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{paymentYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{paymentMonth}}"
+                    },
+                    {
+                      "key": "returnStatus",
+                      "value": "{{returnStatusFilter}}"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Capture latest return request id if present', function () {",
+                      "  const json = pm.response.json();",
+                      "  const first = json?.data?.requests?.[0];",
+                      "  if (first?.id) pm.collectionVariables.set('paymentReturnRequestId', first.id);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Member Respond Return Request",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVED\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/payments/member/return-requests/{{paymentReturnRequestId}}/respond",
+                  "host": ["{{baseUrl}}"],
+                  "path": [
+                    "payments",
+                    "member",
+                    "return-requests",
+                    "{{paymentReturnRequestId}}",
+                    "respond"
                   ]
                 }
               }
@@ -2336,6 +2507,34 @@
     },
     {
       "key": "expenseVoucherImagePath",
+      "value": ""
+    },
+    {
+      "key": "paymentYear",
+      "value": "2026"
+    },
+    {
+      "key": "paymentMonth",
+      "value": "4"
+    },
+    {
+      "key": "paymentId",
+      "value": ""
+    },
+    {
+      "key": "paymentMemberId",
+      "value": ""
+    },
+    {
+      "key": "paymentStatusFilter",
+      "value": "PENDING"
+    },
+    {
+      "key": "returnStatusFilter",
+      "value": "PENDING"
+    },
+    {
+      "key": "paymentReturnRequestId",
       "value": ""
     }
   ]

@@ -75,6 +75,44 @@ enum ExpenseMoneySource {
   SELF_FUND
 }
 
+enum PaymentCategory {
+  MEAL_CHARGE
+  OTHERS
+  UTILITY_BILL
+  RENT
+  INTERNET_BILL
+  GAS_BILL
+  GUEST_MEAL
+  MESS_FUND
+  OTHER
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ReturnMethod {
+  OTHER_FUND_TRANSFER
+  CASH
+}
+
+enum ReturnTransferTarget {
+  INTERNET_BILL
+  GAS_BILL
+  UTILITY_BILL
+  MEAL_CHARGE
+  OTHERS
+  OTHER
+}
+
+enum ReturnRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model User {
   id               String       @id @default(uuid())
   fullName         String
@@ -139,6 +177,8 @@ model Mess {
   mealDays  MealDay[]
   mealRequests MealRequest[]
   expenses Expense[]
+  payments Payment[]
+  paymentReturnRequests PaymentReturnRequest[]
 }
 
 model MessMember {
@@ -156,6 +196,8 @@ model MessMember {
   mealStatuses MealDayMemberStatus[]
   mealRequests MealRequest[]
   expenses Expense[]
+  payments Payment[]
+  paymentReturnRequests PaymentReturnRequest[]
 
   @@unique([messId, userId])
   @@index([userId])
@@ -307,5 +349,60 @@ model Expense {
   @@index([messId, status])
   @@index([messMemberId, status])
   @@index([messId, category])
+  @@index([createdAt])
+}
+
+model Payment {
+  id                    String          @id @default(uuid())
+  messId                String
+  messMemberId          String
+  paymentDate           DateTime
+  year                  Int
+  month                 Int
+  category              PaymentCategory
+  amount                Decimal         @db.Decimal(12, 2)
+  returnAmountRequested Decimal         @default(0) @db.Decimal(12, 2)
+  payableAmount         Decimal?        @db.Decimal(12, 2)
+  status                PaymentStatus   @default(PENDING)
+  managerNote           String?
+  rejectionReason       String?
+  approvedAt            DateTime?
+  rejectedAt            DateTime?
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+
+  mess           Mess                 @relation(fields: [messId], references: [id])
+  messMember     MessMember           @relation(fields: [messMemberId], references: [id])
+  returnRequests PaymentReturnRequest[]
+
+  @@index([messId, year, month])
+  @@index([messId, status])
+  @@index([messMemberId, status])
+  @@index([messId, category])
+  @@index([createdAt])
+}
+
+model PaymentReturnRequest {
+  id             String              @id @default(uuid())
+  paymentId      String
+  messId         String
+  messMemberId   String
+  amount         Decimal             @db.Decimal(12, 2)
+  method         ReturnMethod
+  transferTarget ReturnTransferTarget?
+  status         ReturnRequestStatus @default(PENDING)
+  managerNote    String?
+  memberReason   String?
+  respondedAt    DateTime?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  payment    Payment    @relation(fields: [paymentId], references: [id])
+  mess       Mess       @relation(fields: [messId], references: [id])
+  messMember MessMember @relation(fields: [messMemberId], references: [id])
+
+  @@index([paymentId])
+  @@index([messId, status])
+  @@index([messMemberId, status])
   @@index([createdAt])
 }
