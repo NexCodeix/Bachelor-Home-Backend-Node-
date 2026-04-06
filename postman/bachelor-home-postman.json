@@ -906,6 +906,594 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Meals",
+      "item": [
+        {
+          "name": "Manager",
+          "item": [
+            {
+              "name": "Manager Dashboard",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/dashboard?year={{mealYear}}&month={{mealMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "dashboard"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Manager Get Month Menu",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/menu?year={{mealYear}}&month={{mealMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "menu"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Manager Set Month Menu",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"year\": \"{{mealYear}}\",\n  \"month\": \"{{mealMonth}}\",\n  \"items\": [\n    {\n      \"mealType\": \"BREAKFAST\",\n      \"description\": \"Roti, egg and tea\"\n    },\n    {\n      \"mealType\": \"LUNCH\",\n      \"description\": \"Rice, fish curry and dal\"\n    },\n    {\n      \"mealType\": \"DINNER\",\n      \"description\": \"Rice, chicken curry and salad\"\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/menu",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "menu"]
+                }
+              }
+            },
+            {
+              "name": "Manager Get Weekly Routine",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/routine",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "routine"]
+                }
+              }
+            },
+            {
+              "name": "Manager Set Weekly Routine",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"weekday\": 0,\n      \"mealType\": \"BREAKFAST\",\n      \"isEnabled\": true\n    },\n    {\n      \"weekday\": 0,\n      \"mealType\": \"LUNCH\",\n      \"isEnabled\": true\n    },\n    {\n      \"weekday\": 0,\n      \"mealType\": \"DINNER\",\n      \"isEnabled\": true\n    },\n    {\n      \"weekday\": 5,\n      \"mealType\": \"BREAKFAST\",\n      \"isEnabled\": false\n    },\n    {\n      \"weekday\": 5,\n      \"mealType\": \"LUNCH\",\n      \"isEnabled\": true\n    },\n    {\n      \"weekday\": 5,\n      \"mealType\": \"DINNER\",\n      \"isEnabled\": true\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/routine",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "routine"]
+                }
+              }
+            },
+            {
+              "name": "Manager Pending Meal Requests",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/requests/pending?year={{mealYear}}&month={{mealMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "requests", "pending"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Capture pending meal request and member id if present', function () {",
+                      "  const json = pm.response.json();",
+                      "  const first = json?.data?.requests?.[0];",
+                      "  if (first?.id) pm.collectionVariables.set('mealRequestId', first.id);",
+                      "  if (first?.member?.id) pm.collectionVariables.set('mealMemberId', first.member.id);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Manager Decide Meal Request (Approve)",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"action\": \"APPROVED\",\n  \"managerNote\": \"Approved from Postman flow\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/requests/{{mealRequestId}}/decision",
+                  "host": ["{{baseUrl}}"],
+                  "path": [
+                    "meals",
+                    "manager",
+                    "requests",
+                    "{{mealRequestId}}",
+                    "decision"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Manager Meal History",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/history?year={{mealYear}}&month={{mealMonth}}&scope={{mealHistoryScope}}&memberId={{mealMemberId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "manager", "history"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    },
+                    {
+                      "key": "scope",
+                      "value": "{{mealHistoryScope}}"
+                    },
+                    {
+                      "key": "memberId",
+                      "value": "{{mealMemberId}}",
+                      "disabled": true
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Manager Member Activity",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{managerAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/manager/members/{{mealMemberId}}/activity?year={{mealYear}}&month={{mealMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": [
+                    "meals",
+                    "manager",
+                    "members",
+                    "{{mealMemberId}}",
+                    "activity"
+                  ],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Member",
+          "item": [
+            {
+              "name": "Member Summary",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/summary?year={{mealYear}}&month={{mealMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "summary"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Member Calendar",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/calendar?year={{mealYear}}&month={{mealMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "calendar"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    }
+                  ]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Capture first meal day id if present', function () {",
+                      "  const json = pm.response.json();",
+                      "  const firstDay = json?.data?.days?.[0];",
+                      "  const firstMeal = firstDay?.meals?.[0];",
+                      "  if (firstMeal?.mealDayId) pm.collectionVariables.set('mealDayId', firstMeal.mealDayId);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Member Get Weekly Routine",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/routine",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "routine"]
+                }
+              }
+            },
+            {
+              "name": "Member Set Weekly Routine",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"items\": [\n    {\n      \"weekday\": 1,\n      \"mealType\": \"BREAKFAST\",\n      \"isEnabled\": true\n    },\n    {\n      \"weekday\": 1,\n      \"mealType\": \"LUNCH\",\n      \"isEnabled\": true\n    },\n    {\n      \"weekday\": 1,\n      \"mealType\": \"DINNER\",\n      \"isEnabled\": false\n    },\n    {\n      \"weekday\": 2,\n      \"mealType\": \"BREAKFAST\",\n      \"isEnabled\": true\n    },\n    {\n      \"weekday\": 2,\n      \"mealType\": \"LUNCH\",\n      \"isEnabled\": true\n    },\n    {\n      \"weekday\": 2,\n      \"mealType\": \"DINNER\",\n      \"isEnabled\": true\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/routine",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "routine"]
+                }
+              }
+            },
+            {
+              "name": "Member Create Meal Off Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"mealDayId\": \"{{mealDayId}}\",\n  \"requestType\": \"MEAL_OFF\",\n  \"reason\": \"Will be outside on this date\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/requests",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "requests"]
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Capture meal request id if present', function () {",
+                      "  const json = pm.response.json();",
+                      "  if (json?.data?.id) pm.collectionVariables.set('mealRequestId', json.data.id);",
+                      "});"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Member Update Meal Request",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Updated reason from member\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/requests/{{mealRequestId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "requests", "{{mealRequestId}}"]
+                }
+              }
+            },
+            {
+              "name": "Member Cancel Meal Request",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/requests/{{mealRequestId}}/cancel",
+                  "host": ["{{baseUrl}}"],
+                  "path": [
+                    "meals",
+                    "member",
+                    "requests",
+                    "{{mealRequestId}}",
+                    "cancel"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Member Mark Attendance",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"GOT_MEAL\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/attendance/{{mealDayId}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "attendance", "{{mealDayId}}"]
+                }
+              }
+            },
+            {
+              "name": "Member Meal History",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/history?year={{mealYear}}&month={{mealMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "history"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Member Meal Activity",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/activity?year={{mealYear}}&month={{mealMonth}}&filter={{mealActivityFilter}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "activity"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "{{mealActivityFilter}}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Member Meal Report",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{memberAccessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/meals/member/report?year={{mealYear}}&month={{mealMonth}}",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["meals", "member", "report"],
+                  "query": [
+                    {
+                      "key": "year",
+                      "value": "{{mealYear}}"
+                    },
+                    {
+                      "key": "month",
+                      "value": "{{mealMonth}}"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "variable": [
@@ -1040,6 +1628,34 @@
     {
       "key": "googleEmail",
       "value": "google.user@example.com"
+    },
+    {
+      "key": "mealYear",
+      "value": "2026"
+    },
+    {
+      "key": "mealMonth",
+      "value": "4"
+    },
+    {
+      "key": "mealDayId",
+      "value": ""
+    },
+    {
+      "key": "mealRequestId",
+      "value": ""
+    },
+    {
+      "key": "mealMemberId",
+      "value": ""
+    },
+    {
+      "key": "mealHistoryScope",
+      "value": "ALL"
+    },
+    {
+      "key": "mealActivityFilter",
+      "value": "all"
     }
   ]
 }

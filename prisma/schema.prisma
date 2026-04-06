@@ -39,6 +39,31 @@ enum MessJoinRequestStatus {
   REJECTED
 }
 
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+}
+
+enum MealRequestType {
+  MEAL_ON
+  MEAL_OFF
+  GUEST_MEAL
+}
+
+enum MealRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum AttendanceStatus {
+  NOT_MARKED
+  GOT_MEAL
+  DID_NOT_GET
+}
+
 model User {
   id               String       @id @default(uuid())
   fullName         String
@@ -98,6 +123,10 @@ model Mess {
 
   owner    User        @relation(fields: [ownerUserId], references: [id])
   members  MessMember[]
+  mealMenus MessMealMenu[]
+  mealRoutines MessMealRoutine[]
+  mealDays  MealDay[]
+  mealRequests MealRequest[]
 }
 
 model MessMember {
@@ -111,8 +140,126 @@ model MessMember {
 
   mess Mess @relation(fields: [messId], references: [id])
   user User @relation(fields: [userId], references: [id])
+  mealRoutines MemberMealRoutine[]
+  mealStatuses MealDayMemberStatus[]
+  mealRequests MealRequest[]
 
   @@unique([messId, userId])
   @@index([userId])
   @@index([messId, requestStatus])
+}
+
+model MessMealMenu {
+  id          String   @id @default(uuid())
+  messId      String
+  year        Int
+  month       Int
+  mealType    MealType
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  mess Mess @relation(fields: [messId], references: [id])
+
+  @@unique([messId, year, month, mealType])
+  @@index([messId, year, month])
+}
+
+model MessMealRoutine {
+  id        String   @id @default(uuid())
+  messId    String
+  weekday   Int
+  mealType  MealType
+  isEnabled Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  mess Mess @relation(fields: [messId], references: [id])
+
+  @@unique([messId, weekday, mealType])
+  @@index([messId])
+}
+
+model MemberMealRoutine {
+  id           String   @id @default(uuid())
+  messMemberId String
+  weekday      Int
+  mealType     MealType
+  isEnabled    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  messMember MessMember @relation(fields: [messMemberId], references: [id])
+
+  @@unique([messMemberId, weekday, mealType])
+  @@index([messMemberId])
+}
+
+model MealDay {
+  id              String   @id @default(uuid())
+  messId          String
+  date            DateTime
+  year            Int
+  month           Int
+  day             Int
+  weekday         Int
+  mealType        MealType
+  menuDescription String?
+  isEnabled       Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  mess Mess @relation(fields: [messId], references: [id])
+  memberStatuses MealDayMemberStatus[]
+  requests MealRequest[]
+
+  @@unique([messId, date, mealType])
+  @@index([messId, year, month])
+  @@index([messId, date])
+}
+
+model MealDayMemberStatus {
+  id               String           @id @default(uuid())
+  mealDayId        String
+  messMemberId     String
+  isEnabled        Boolean          @default(true)
+  guestCount       Int              @default(0)
+  isOverridden     Boolean          @default(false)
+  attendanceStatus AttendanceStatus @default(NOT_MARKED)
+  attendanceMarkedAt DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  mealDay MealDay @relation(fields: [mealDayId], references: [id])
+  messMember MessMember @relation(fields: [messMemberId], references: [id])
+
+  @@unique([mealDayId, messMemberId])
+  @@index([messMemberId])
+  @@index([mealDayId])
+  @@index([messMemberId, attendanceStatus])
+}
+
+model MealRequest {
+  id            String            @id @default(uuid())
+  messId        String
+  mealDayId     String
+  messMemberId  String
+  requestType   MealRequestType
+  status        MealRequestStatus @default(PENDING)
+  guestCount    Int               @default(0)
+  reason        String?
+  managerNote   String?
+  respondedAt   DateTime?
+  cancelledAt   DateTime?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  mess Mess @relation(fields: [messId], references: [id])
+  mealDay MealDay @relation(fields: [mealDayId], references: [id])
+  messMember MessMember @relation(fields: [messMemberId], references: [id])
+
+  @@index([messId, status])
+  @@index([messMemberId, status])
+  @@index([mealDayId])
+  @@index([createdAt])
 }
