@@ -6,6 +6,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { MessModule } from './modules/mess/mess.module';
 import { MealsModule } from './modules/meals/meals.module';
+import { ExpensesModule } from './modules/expenses/expenses.module';
 import { PrismaModule } from './database/prisma.module';
 
 @Module({
@@ -16,6 +17,7 @@ import { PrismaModule } from './database/prisma.module';
     UsersModule,
     MessModule,
     MealsModule,
+    ExpensesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
